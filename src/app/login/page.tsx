@@ -11,7 +11,7 @@ export default function LoginPage(){
 
   })
   const onLogin = async () =>{
-
+    // handle the logic for login setup
   }
 
   return (
