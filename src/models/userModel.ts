@@ -29,6 +29,6 @@ verifyToken: String,
 verifyTokenExpiry: Date,
 })
 
-const User = mongoose.models.users || mongoose.model( "users", userSchema)
+const Customer = mongoose.models.customers || mongoose.model( "customers", userSchema)
 
-export default User
+export default Customer

@@ -1,5 +1,5 @@
 import {connect} from "@/app/dbConfig/dbConfig"
-import User from "@/models/userModel"
+import Customer from "@/models/userModel"
 import { NextRequest, NextResponse } from "next/server"
 import bcryptjs from "bcryptjs"
 
@@ -10,10 +10,10 @@ export async function POST (request: NextRequest) {
   try {
     const reqBody = await request.json()
     const { username, email, password } = reqBody
-    console.log(reqBody)
+    console.log("this is the singup route reqbody", reqBody)
 
     // check if the user already exist
-    const user = await User.findOne({email})
+    const user = await Customer.findOne({email})
 
     if(user){
       return NextResponse.json({
@@ -27,8 +27,8 @@ export async function POST (request: NextRequest) {
     const salt = await bcryptjs.genSalt(10)
     const hashedPassword = await bcryptjs.hash(password, salt)
 
-    const newUser = new User({
-      user,
+    const newUser = new Customer({
+      username,
       email, 
       password: hashedPassword
     })
