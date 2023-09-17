@@ -12,9 +12,7 @@ export default function SignupPage() {
   const [user, setUser] = React.useState({
     email: "",
     password: "", 
-    username: "",
-
-
+    username: ""
   })
 
   const [buttonDisabled, setButtonDisabled] = React.useState(false)
@@ -24,11 +22,13 @@ export default function SignupPage() {
     //  handle the signup function - 
     try {
       setLoading(true)
-      const response = await axios.post("/api/users/signup", user)
+      console.log("registering....")
+      const response = await axios.post("/api/users/signup", user) 
+      console.log("response --", response)
       console.log("Signup success", response.data)
       router.push("/login")
     } catch (error:any) {
-      console.log("Signup failed", error.message)
+      console.log("Signup failed", error)
       toast.error(error.message)
     }finally {
       setLoading(false)

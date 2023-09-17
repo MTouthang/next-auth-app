@@ -4,9 +4,9 @@ import bcryptjs from 'bcryptjs'
 
 export const sendEmail = async ({email, emailType, userId }: any) => {
   try {
-
     // create a hash token
-    const hashToken = await bcryptjs.hash(userId.toString, 10)
+    console.log("email initiated")
+    const hashToken = await bcryptjs.hash(userId.toString(), 10)
 
     if(emailType === "VERIFY") {
       await Customer.findByIdAndUpdate(userId, {
@@ -36,10 +36,13 @@ export const sendEmail = async ({email, emailType, userId }: any) => {
       `<p> Click 
       <a href="${process.env.domain}/verifyemail?token=${hashToken}"> Here  </a> to
       ${emailType === "VERIFY" ? "verify your email" : "reset your password"}
+      or copy and paste the link below in your browser <br>
+      ${process.env.domain}/verifyemail?token=${hashToken}
       </p>`
     }
 
-    const mailResponse = await transport.sendMail(mailOptions)
+    const mailResponse = await transport.sendMail(mailOptions) 
+    console.log("email send !")
     return mailResponse
   } catch ( error: any) {
       throw new Error(error.message)

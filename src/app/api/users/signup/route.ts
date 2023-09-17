@@ -11,7 +11,7 @@ export async function POST (request: NextRequest) {
   try {
     const reqBody = await request.json()
     const { username, email, password } = reqBody
-    console.log("this is the singup route reqbody", reqBody)
+
 
     // check if the user already exist
     const user = await Customer.findOne({email})
@@ -26,7 +26,7 @@ export async function POST (request: NextRequest) {
 
     // hash password
     const salt = await bcryptjs.genSalt(10)
-    const hashedPassword = await bcryptjs.hash(password, salt)
+    const hashedPassword = await bcryptjs.hash(password.toString(), salt)
 
     const newUser = new Customer({
       username,
@@ -34,11 +34,12 @@ export async function POST (request: NextRequest) {
       password: hashedPassword
     })
 
+   
+
     const savedUser = await newUser.save()
-    console.log("saved user", savedUser)
-    
     // send verification email
-    await sendEmail({email, emailType: "VERIFY", userId: savedUser._id})
+    await sendEmail({email, emailType : "VERIFY", userId: savedUser._id})
+
 
     return NextResponse.json({
       message: "User created successfully",
@@ -47,6 +48,7 @@ export async function POST (request: NextRequest) {
     })
 
   } catch (error: any) {
+    console.error("Error during user signup:", error);
     return NextResponse.json({
       error: error.message
     },
